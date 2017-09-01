@@ -1,0 +1,60 @@
+{{!< layout}}
+ <header class="aui-page-header">
+     <div class="aui-page-header-inner">
+         <div class="aui-page-header-main intro-header">
+             <h1>{{title}}</h1>
+             
+         </div>
+     </div>
+ </header>
+
+<div id="menu" class="menu-wrap">
+	<header class="aui-page-header">
+	    <div class="aui-page-header-inner">
+	    	<div class="aui-page-header-main intro-header">
+	    		<h2>Fix Version:</h2>
+	    		<select id="version_select">
+	    		</select>
+	    </div>
+    </header>
+</div>
+
+<div id="main" class="aui-page-panel main-panel">
+    <div class="aui-page-panel-inner">
+        <section class="aui-page-panel-item">
+            <div class="aui-group">
+                <div class="aui-item">
+                    <div class="display">
+                    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="no_fix_versions">
+	No Fix Versions
+</div>
+
+<div id="config">
+	<form id="configForm" class='aui'>
+		<div class='field-group'>
+			<label for='itemTitle'>Title:<span class='aui-icon icon-required'>required</span></label>
+			<input class='text medium-field' type='text' id='itemTitle' />
+		</div>
+		<div class='field-group'>
+			<label for='selectedProject'>Project:<span class='aui-icon icon-required'>required</span></label>
+			<select class='select' id='selectedProject'></select>
+		</div>
+		<div class='field-group'>
+			<label for='numRows'>No. Rows to display:<span class='aui-icon icon-required'>required</span></label>
+			<select class='select' id='numRowsSelect'></select>
+		</div>
+		<div class='buttons-container'>
+			<button type='submit' id='saveConfiguration' class='aui-button'>Save</button>
+		</div>
+	</form>
+</div>
+
+ 

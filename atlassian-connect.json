@@ -1,0 +1,42 @@
+{
+    "key": "release_dashboard",
+    "name": "Release Dashboard",
+    "description": "Show releases and all tasks associated with them",
+    "vendor": {
+        "name": "Karl O'Connor",
+        "url": "https://www.karloconnor.atlassian.net"
+    },
+    "baseUrl": "{{localBaseUrl}}",
+    "links": {
+        "self": "{{localBaseUrl}}/atlassian-connect.json",
+        "homepage": "{{localBaseUrl}}/atlassian-connect.json"
+    },
+    "authentication": {
+        "type": "jwt"
+    },
+    "lifecycle": {
+        "installed": "/installed"
+    },
+    "scopes": [
+        "READ", "WRITE"
+    ],
+    
+   "modules": {
+		"jiraDashboardItems": [
+			{
+				"description": {
+					"value": "Release Dashboard"
+				},
+				"url": "/dashboard-item?dashboardItemId={dashboardItem.id}&dashboardId={dashboard.id}&view={dashboardItem.viewType}",
+				"configurable": true,
+				"thumbnailUrl": "atlassian-icon-16.png",
+				"name": {
+					"value": "Release Dashboard"
+				},
+				"key": "dashboard-item-key"
+					
+			}
+		]
+    
+	}
+}
