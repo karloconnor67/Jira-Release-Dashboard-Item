@@ -1,15 +1,46 @@
 /* add-on styles */
 .intro-header h1 {
-  font-size: 48px;
-  line-height: 60px;
-  padding-top: 20px;
+	font-size: 48px;
+	line-height: 60px;
+	padding-top: 20px;
 }
+
 .intro-header p.subtitle {
-  font-size: 24px;
-  line-height: 30px;
-  padding-bottom: 20px;
+	font-size: 24px;
+	line-height: 30px;
+	padding-bottom: 20px;
 }
+
 .main-panel .aui-page-panel-item {
-  padding: 20px 40px 20px 0;
-  height: 100px;
+	padding: 20px 40px 20px 0;
+	height: 100px;
+}
+
+#no_fix_versions {
+	margin: auto;
+	width: 100%;
+	text-align: center;
+	color: red;
+}
+
+#header {
+	overflow: hidden;
+	width: auto;
+	display: inline;
+	vertical-align: middle;
+}
+
+#header_name{
+	display: block;
+	padding-bottom: 10px;
+}
+
+#header_version{
+	display: block;
+}
+
+
+#avatar {
+	width: 15px;
+	height: 15px;
 }

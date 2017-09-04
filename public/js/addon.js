@@ -50,7 +50,8 @@ $(function() {
 		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
 		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
 		var results = regex.exec(location.search);
-		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		return results === null ? '' : decodeURIComponent(results[1].replace(
+				/\+/g, ' '));
 	}
 	;
 
@@ -66,6 +67,9 @@ $(function() {
 		projHeadRow.append("th").text("Summary");
 		projHeadRow.append("th").text("Status");
 
+		projFootRow = projTable.append("tfoot").append("tr");
+		projFootRow.append("th").text("Footer");
+
 		return projTable.append("tbody");
 	}
 
@@ -73,7 +77,8 @@ $(function() {
 	// Call this first and either show Dashboard or Dashboard configuration
 	AP.require([ 'request' ], function(request) {
 		request({
-			url : '/rest/api/latest/dashboard/' + dashboardId + '/items/' + dashboardItemId + '/properties/config',
+			url : '/rest/api/latest/dashboard/' + dashboardId + '/items/'
+					+ dashboardItemId + '/properties/config',
 			success : function(response) {
 
 				// Convert the string response to JSON
@@ -110,35 +115,53 @@ $(function() {
 			jira.setDashboardItemTitle(title);
 		});
 
-		AP.request(url, {
-			success : function(response) {
-				response = JSON.parse(response);
+		// update project link
+		var link = baseUrl + '/browse/' + projectKey;
 
+		AP.request('/rest/api/latest/project/' + projectKey, {
+			success : function(response) {
+				
+				response = JSON.parse(response);
+				
+				console.log("RESPONSE: ", response);
+				
+				// show link
+				document.getElementById('project_name_label').innerHTML += '<a href="'
+					+ link + '">' + response.name + ' ('+ projectKey + ')' +'</a>';
+
+				// show Avatar
+				document.getElementById('avatar').src = response.avatarUrls["16x16"];
+
+				var versions = response.versions;
+				
 				// check if project has versions
-				var isEmpty = (response || []).length === 0;
+				var isEmpty = (versions || []).length === 0;
 
 				if (isEmpty) {
 					noFixVersions_id.style.display = 'block';
-					
+
 					// remove old data from select
 					var select = document.getElementById("version_select");
 					select.options.length = 0;
-					
+
 					var numRows = projBody[0][0].rows.length;
 
 					// clean rows
 					for (i = 0; i < numRows; i++) {
 						projBody[0][0].deleteRow(0);
 					}
-					
+
 				} else {
-					populateVersionsDropdown(response);
+					populateVersionsDropdown(versions);
 				}
+				
+				
 			},
 			error : function(response) {
 				alert("Error:", response);
 			}
 		});
+
 	}
 
 	// Config Dashboard Listener
@@ -151,30 +174,36 @@ $(function() {
 	// get all projects
 	function addAllProjects() {
 
-		AP.request('/rest/api/latest/project/', {
-			success : function(response) {
-				response = JSON.parse(response);
+		AP
+				.request(
+						'/rest/api/latest/project/',
+						{
+							success : function(response) {
+								response = JSON.parse(response);
 
-				response.forEach(function(com) {
-					var name = com.name;
-					var key = com.key;
-					projectSelect.options[projectSelect.options.length] = new Option(name, key);
-				});
+								response
+										.forEach(function(com) {
+											var name = com.name;
+											var key = com.key;
+											projectSelect.options[projectSelect.options.length] = new Option(
+													name, key);
+										});
 
-				// update select to show current config
-				projectSelect.value = projectKey;
+								// update select to show current config
+								projectSelect.value = projectKey;
 
-			},
-			error : function(response) {
-				alert("Error:", response);
-			}
-		});
+							},
+							error : function(response) {
+								alert("Error:", response);
+							}
+						});
 
 	}
 
 	// process form config
 	function processForm(e) {
-		var url = '/rest/api/latest/dashboard/' + dashboardId + '/items/' + dashboardItemId + '/properties/config';
+		var url = '/rest/api/latest/dashboard/' + dashboardId + '/items/'
+				+ dashboardItemId + '/properties/config';
 
 		if (e.preventDefault)
 			e.preventDefault();
@@ -227,6 +256,8 @@ $(function() {
 		numRowsSelect.options.length = 0;
 		projectSelect.options.length = 0;
 
+		document.getElementById('project_name_label').innerHTML = "";
+
 		// add values to num rows field
 		var rowValues = {
 			1 : '1',
@@ -236,7 +267,8 @@ $(function() {
 		};
 
 		for (index in rowValues) {
-			numRowsSelect.options[numRowsSelect.options.length] = new Option(rowValues[index], index);
+			numRowsSelect.options[numRowsSelect.options.length] = new Option(
+					rowValues[index], index);
 		}
 
 		// update select to show current config
