@@ -39,6 +39,9 @@
 	display: block;
 }
 
+#pagination *{
+	padding: 20px 15px;
+}
 
 #avatar {
 	width: 15px;

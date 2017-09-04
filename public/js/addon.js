@@ -5,6 +5,8 @@ $(function() {
 	var dashboardItemId = getUrlParameter('dashboardItemId');
 	var dashboardId = getUrlParameter('dashboardId');
 
+	var paginationLocation = 1;
+
 	var form = document.getElementById('configForm');
 	var numRowsSelect = document.getElementById('numRowsSelect');
 	var projectSelect = document.getElementById('selectedProject');
@@ -53,7 +55,6 @@ $(function() {
 		return results === null ? '' : decodeURIComponent(results[1].replace(
 				/\+/g, ' '));
 	}
-	;
 
 	function buildTableAndReturnTbody(hostElement) {
 		projTable = hostElement.append('table').classed({
@@ -67,10 +68,113 @@ $(function() {
 		projHeadRow.append("th").text("Summary");
 		projHeadRow.append("th").text("Status");
 
-		projFootRow = projTable.append("tfoot").append("tr");
-		projFootRow.append("th").text("Footer");
-
 		return projTable.append("tbody");
+	}
+
+	function getData(url) {
+
+		var start = paginationLocation * displayRows;
+
+		var urlFull = url.concat("&maxResults=" + displayRows + "&startAt="
+				+ start);
+
+		AP.request(urlFull, {
+			success : function(response) {
+				response = JSON.parse(response);
+
+				console.log("RESPONSE", response.total);
+
+				populateTable(response);
+			},
+			error : function(response) {
+				alert("Error:", response);
+			}
+		});
+	}
+
+	function pagination(numPages, url) {
+		var pagination_div = document.getElementById('pagination');
+
+		// empty div
+		pagination_div.innerHTML = "";
+
+		var first = document.createElement("first");
+		first.innerHTML = "<< First";
+		pagination_div.appendChild(first);
+
+		first.addEventListener("click", function() {
+			paginationLocation = 1;
+			getData(url);
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPages;
+		});
+
+		var previous = document.createElement("previous");
+		previous.innerHTML = "< Previous";
+		pagination_div.appendChild(previous);
+
+		previous.addEventListener("click", function() {
+			if (paginationLocation > 1) {
+				paginationLocation--;
+			}
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPages;
+			getData(url);
+		});
+
+		var currentLocation = document.createElement("currentLocation");
+		currentLocation.id = "currentLocation";
+		currentLocation.innerHTML = "Showing Page " + paginationLocation
+				+ " of " + numPages;
+		pagination_div.appendChild(currentLocation);
+
+		var buttons = [];
+
+		// array of buttons
+		for (var i = 1; i <= numPages; i++) {
+			buttons.push[i];
+			buttons[i] = document.createElement("NavButton_" + i);
+			buttons[i].innerHTML = i;
+			pagination_div.appendChild(buttons[i]);
+
+			buttons[i].addEventListener("click", bindClick(i, numPages, url));
+		}
+
+		var next = document.createElement("next");
+		next.innerHTML = "Next >";
+		pagination_div.appendChild(next);
+
+		next.addEventListener("click", function() {
+			if (paginationLocation < numPages) {
+				paginationLocation++;
+			}
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPages;
+			getData(url);
+		});
+
+		var last = document.createElement("last");
+		last.innerHTML = "Last >>";
+		pagination_div.appendChild(last);
+
+		last.addEventListener("click", function() {
+			paginationLocation = numPages;
+
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPages;
+			getData(url);
+		});
+
+	}
+
+	function bindClick(i, numPages, url) {
+		return function() {
+			paginationLocation = i;
+			var currentLocation = document.getElementById('currentLocation');
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPages;
+			getData(url);
+		};
 	}
 
 	// Get Dashboard Configuration
@@ -108,8 +212,6 @@ $(function() {
 	// Show Dashboard
 	function showDashboard() {
 
-		var url = '/rest/api/latest/project/' + projectKey + '/versions';
-
 		// set title
 		AP.require([ 'jira' ], function(jira) {
 			jira.setDashboardItemTitle(title);
@@ -118,49 +220,54 @@ $(function() {
 		// update project link
 		var link = baseUrl + '/browse/' + projectKey;
 
-		AP.request('/rest/api/latest/project/' + projectKey, {
-			success : function(response) {
-				
-				response = JSON.parse(response);
-				
-				console.log("RESPONSE: ", response);
-				
-				// show link
-				document.getElementById('project_name_label').innerHTML += '<a href="'
-					+ link + '">' + response.name + ' ('+ projectKey + ')' +'</a>';
+		AP
+				.request(
+						'/rest/api/latest/project/' + projectKey,
+						{
+							success : function(response) {
 
-				// show Avatar
-				document.getElementById('avatar').src = response.avatarUrls["16x16"];
+								response = JSON.parse(response);
 
-				var versions = response.versions;
-				
-				// check if project has versions
-				var isEmpty = (versions || []).length === 0;
+								// show link
+								document.getElementById('project_name_label').innerHTML += '<a href="'
+										+ link
+										+ '">'
+										+ response.name
+										+ ' ('
+										+ projectKey + ')' + '</a>';
 
-				if (isEmpty) {
-					noFixVersions_id.style.display = 'block';
+								// show Avatar
+								document.getElementById('avatar').src = response.avatarUrls["16x16"];
 
-					// remove old data from select
-					var select = document.getElementById("version_select");
-					select.options.length = 0;
+								var versions = response.versions;
 
-					var numRows = projBody[0][0].rows.length;
+								// check if project has versions
+								var isEmpty = (versions || []).length === 0;
 
-					// clean rows
-					for (i = 0; i < numRows; i++) {
-						projBody[0][0].deleteRow(0);
-					}
+								if (isEmpty) {
+									noFixVersions_id.style.display = 'block';
 
-				} else {
-					populateVersionsDropdown(versions);
-				}
-				
-				
-			},
-			error : function(response) {
-				alert("Error:", response);
-			}
-		});
+									// remove old data from select
+									var select = document
+											.getElementById("version_select");
+									select.options.length = 0;
+
+									var numRows = projBody[0][0].rows.length;
+
+									// clean rows
+									for (i = 0; i < numRows; i++) {
+										projBody[0][0].deleteRow(0);
+									}
+
+								} else {
+									populateVersionsDropdown(versions);
+								}
+
+							},
+							error : function(response) {
+								alert("Error:", response);
+							}
+						});
 
 	}
 
@@ -327,17 +434,28 @@ $(function() {
 		var jql = "fixVersion=";
 		var urlFull = urlBegin.concat(jql + "\"" + version_id + "\"");
 
-		urlFull = urlFull.concat("&maxResults=" + displayRows);
+		var numPagesNeeded = 0;
 
 		AP.request(urlFull, {
 			success : function(response) {
 				response = JSON.parse(response);
-				populateTable(response);
+				totalIssues = response.total;
+				// Round Up
+				numPagesNeeded = Math.ceil(totalIssues / displayRows);
+				pagination(numPagesNeeded, urlFull);
+
 			},
 			error : function(response) {
 				alert("Error:", response);
 			}
 		});
+
+		// to initially call her
+		if (paginationLocation == 1) {
+			console.log("INTIAL LOAD");
+			getData(urlFull);
+		}
+
 	}
 
 	function populateTable(version_issues) {
