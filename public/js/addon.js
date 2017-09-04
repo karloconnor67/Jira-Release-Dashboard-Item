@@ -255,6 +255,7 @@ $(function() {
 
 	}
 
+	// populate versions dropdown
 	function populateVersionsDropdown(versions) {
 
 		var select = document.getElementById("version_select");
