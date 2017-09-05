@@ -23,7 +23,7 @@ $(function() {
 	main_id.style.display = 'block';
 	noFixVersions_id.style.display = 'none';
 	pagination_id.style.display = 'block';
-	
+
 	var projectKey;
 	var displayRows;
 	var title;
@@ -81,8 +81,6 @@ $(function() {
 		var urlFull = url.concat("&maxResults=" + displayRows + "&startAt="
 				+ start);
 
-		console.log("URL: ", urlFull);
-
 		AP.request(urlFull, {
 			success : function(response) {
 				response = JSON.parse(response);
@@ -104,7 +102,7 @@ $(function() {
 		pagination_div.innerHTML = "";
 
 		var buttons = [];
-		
+
 		// Add "FIRST" button
 		buttons.push["first"];
 		buttons["first"] = document.createElement("first");
@@ -335,9 +333,9 @@ $(function() {
 			'project' : projectValue,
 			'title' : titleValue
 		};
-		
-		//reset current location 
-		currentLocation=1;
+
+		// reset current location
+		currentLocation = 1;
 
 		AP.request({
 			url : url,
@@ -462,11 +460,12 @@ $(function() {
 			}
 		});
 
-		// to initially call her
-		if (paginationLocation == 1) {
-			console.log("INTIAL LOAD");
-			getData(urlFull);
-		}
+		paginationLocation = 1;
+		var currentLocation = document.getElementById('currentLocation');
+		currentLocation.innerHTML = "Showing Page " + paginationLocation
+		+ " of " + numPagesNeeded;
+		
+		getData(urlFull);
 
 	}
 
