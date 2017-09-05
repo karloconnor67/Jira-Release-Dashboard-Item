@@ -16,12 +16,14 @@ $(function() {
 	var menu_id = document.getElementById("menu");
 	var main_id = document.getElementById("main");
 	var noFixVersions_id = document.getElementById("no_fix_versions");
+	var pagination_id = document.getElementById("pagination");
 
 	config_id.style.display = 'none';
 	menu_id.style.display = 'block';
 	main_id.style.display = 'block';
 	noFixVersions_id.style.display = 'none';
-
+	pagination_id.style.display = 'block';
+	
 	var projectKey;
 	var displayRows;
 	var title;
@@ -36,6 +38,7 @@ $(function() {
 	var rootElement = d3.select(".display");
 	var projBody = buildTableAndReturnTbody(rootElement);
 
+	// get query params
 	function getQueryParams(qs) {
 		qs = qs.split("+").join(" ");
 
@@ -73,16 +76,18 @@ $(function() {
 
 	function getData(url) {
 
-		var start = paginationLocation * displayRows;
+		var start = (paginationLocation * displayRows) - displayRows;
 
 		var urlFull = url.concat("&maxResults=" + displayRows + "&startAt="
 				+ start);
+
+		console.log("URL: ", urlFull);
 
 		AP.request(urlFull, {
 			success : function(response) {
 				response = JSON.parse(response);
 
-				console.log("RESPONSE", response.total);
+				console.log("Total Results", response.total);
 
 				populateTable(response);
 			},
@@ -98,37 +103,31 @@ $(function() {
 		// empty div
 		pagination_div.innerHTML = "";
 
-		var first = document.createElement("first");
-		first.innerHTML = "<< First";
-		pagination_div.appendChild(first);
+		var buttons = [];
+		
+		// Add "FIRST" button
+		buttons.push["first"];
+		buttons["first"] = document.createElement("first");
+		buttons["first"].innerHTML = "<< First";
+		pagination_div.appendChild(buttons["first"]);
 
-		first.addEventListener("click", function() {
-			paginationLocation = 1;
-			getData(url);
-			currentLocation.innerHTML = "Showing Page " + paginationLocation
-					+ " of " + numPages;
-		});
+		buttons["first"].addEventListener("click", bindClick("first", numPages,
+				url));
 
-		var previous = document.createElement("previous");
-		previous.innerHTML = "< Previous";
-		pagination_div.appendChild(previous);
+		// Add "PREVIOUS" button
+		buttons.push["previous"];
+		buttons["previous"] = document.createElement("previous");
+		buttons["previous"].innerHTML = "< Previous";
+		pagination_div.appendChild(buttons["previous"]);
 
-		previous.addEventListener("click", function() {
-			if (paginationLocation > 1) {
-				paginationLocation--;
-			}
-			currentLocation.innerHTML = "Showing Page " + paginationLocation
-					+ " of " + numPages;
-			getData(url);
-		});
+		buttons["previous"].addEventListener("click", bindClick("previous",
+				numPages, url));
 
 		var currentLocation = document.createElement("currentLocation");
 		currentLocation.id = "currentLocation";
 		currentLocation.innerHTML = "Showing Page " + paginationLocation
 				+ " of " + numPages;
 		pagination_div.appendChild(currentLocation);
-
-		var buttons = [];
 
 		// array of buttons
 		for (var i = 1; i <= numPages; i++) {
@@ -140,37 +139,45 @@ $(function() {
 			buttons[i].addEventListener("click", bindClick(i, numPages, url));
 		}
 
-		var next = document.createElement("next");
-		next.innerHTML = "Next >";
-		pagination_div.appendChild(next);
+		// Add "NEXT" button
+		buttons.push["next"];
+		buttons["next"] = document.createElement("next");
+		buttons["next"].innerHTML = "Next >";
+		pagination_div.appendChild(buttons["next"]);
 
-		next.addEventListener("click", function() {
-			if (paginationLocation < numPages) {
-				paginationLocation++;
-			}
-			currentLocation.innerHTML = "Showing Page " + paginationLocation
-					+ " of " + numPages;
-			getData(url);
-		});
+		buttons["next"].addEventListener("click", bindClick("next", numPages,
+				url));
 
-		var last = document.createElement("last");
-		last.innerHTML = "Last >>";
-		pagination_div.appendChild(last);
+		// Add "LAST" button
+		buttons.push["last"];
+		buttons["last"] = document.createElement("last");
+		buttons["last"].innerHTML = "Last >>";
+		pagination_div.appendChild(buttons["last"]);
 
-		last.addEventListener("click", function() {
-			paginationLocation = numPages;
-
-			currentLocation.innerHTML = "Showing Page " + paginationLocation
-					+ " of " + numPages;
-			getData(url);
-		});
-
+		buttons["last"].addEventListener("click", bindClick("last", numPages,
+				url));
 	}
 
-	function bindClick(i, numPages, url) {
+	function bindClick(button, numPages, url) {
 		return function() {
-			paginationLocation = i;
+
 			var currentLocation = document.getElementById('currentLocation');
+
+			if (button == "first") {
+				paginationLocation = 1;
+			} else if (button == "previous") {
+				if (paginationLocation > 1) {
+					paginationLocation--;
+				}
+			} else if (button == "next") {
+				if (paginationLocation < numPages) {
+					paginationLocation++;
+				}
+			} else if (button == "last") {
+				paginationLocation = numPages;
+			} else {
+				paginationLocation = button;
+			}
 			currentLocation.innerHTML = "Showing Page " + paginationLocation
 					+ " of " + numPages;
 			getData(url);
@@ -328,6 +335,9 @@ $(function() {
 			'project' : projectValue,
 			'title' : titleValue
 		};
+		
+		//reset current location 
+		currentLocation=1;
 
 		AP.request({
 			url : url,
@@ -339,6 +349,7 @@ $(function() {
 				config_id.style.display = 'none';
 				menu_id.style.display = 'block';
 				main_id.style.display = 'block';
+				pagination_id.style.display = 'block';
 			},
 			error : function(response) {
 
@@ -358,6 +369,7 @@ $(function() {
 		menu_id.style.display = 'none';
 		main_id.style.display = 'none';
 		noFixVersions_id.style.display = 'none';
+		pagination_id.style.display = 'none';
 
 		// remove old data from selects
 		numRowsSelect.options.length = 0;

@@ -1,19 +1,9 @@
 /* add-on styles */
-.intro-header h1 {
-	font-size: 48px;
-	line-height: 60px;
-	padding-top: 20px;
-}
-
-.intro-header p.subtitle {
-	font-size: 24px;
-	line-height: 30px;
-	padding-bottom: 20px;
-}
-
-.main-panel .aui-page-panel-item {
-	padding: 20px 40px 20px 0;
-	height: 100px;
+.aui-page-hybrid {
+	position: relative;
+	height: auto;
+	min-height: 100% !important;
+	overflow: hidden;
 }
 
 #no_fix_versions {
@@ -30,20 +20,32 @@
 	vertical-align: middle;
 }
 
-#header_name{
+#header_name {
 	display: block;
 	padding-bottom: 10px;
 }
 
-#header_version{
+#header_version {
 	display: block;
-}
-
-#pagination *{
-	padding: 20px 15px;
 }
 
 #avatar {
 	width: 15px;
 	height: 15px;
 }
+
+#pagination * {
+	padding: 20px 15px;
+	text-align: center;
+	color: #3B73AF;
+}
+
+#currentLocation {
+	background-color: white;
+}
+
+#currentLocation{
+	border-style: solid;
+	font-style: italic;
+}
+
