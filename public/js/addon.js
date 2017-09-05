@@ -162,11 +162,10 @@ $(function() {
 			} else if (button == "last") {
 				paginationLocation = numPages;
 			}
-			
+
 			currentLocation.innerHTML = "Showing Page " + paginationLocation
 					+ " of " + numPages;
-			
-			
+
 			getData(url);
 		};
 	}
@@ -196,7 +195,7 @@ $(function() {
 			error : function(response) {
 				console.log("ERROR: ", response);
 				// NEED TO GET MORE ELOGANT WAY TO HANDLE INITIAL CONFIG SETUP
-				configureDashboard();
+				setupConfigureDashboardScreen();
 			},
 			contentType : "application/json"
 		});
@@ -221,7 +220,7 @@ $(function() {
 							success : function(response) {
 
 								response = JSON.parse(response);
-
+								
 								// show link
 								document.getElementById('project_name_label').innerHTML += '<a href="'
 										+ link
@@ -435,19 +434,49 @@ $(function() {
 
 		var numPagesNeeded = 0;
 
-		AP.request(urlFull, {
-			success : function(response) {
-				response = JSON.parse(response);
-				totalIssues = response.total;
-				// Round Up
-				numPagesNeeded = Math.ceil(totalIssues / displayRows);
-				pagination(numPagesNeeded, urlFull);
+		AP
+				.request(
+						urlFull,
+						{
+							success : function(response) {
+								response = JSON.parse(response);
+								totalIssues = response.total;
 
-			},
-			error : function(response) {
-				alert("Error:", response);
-			}
-		});
+								console.log("VERSIONS: ", response);
+								// show # of issues
+								document.getElementById('num_issues_label').innerHTML = totalIssues;
+
+								// show release date
+								if (response.issues[0].fields.fixVersions[0].releaseDate != null) {
+
+									var releaseDate = response.issues[0].fields.fixVersions[0].releaseDate;
+								} else {
+									var releaseDate = "None";
+								}
+
+								document.getElementById('release_date_label').innerHTML = releaseDate;
+
+								console.log("RELEASED FLAG: ", response.issues[0].fields.fixVersions[0].released);
+								
+								// show released label
+								if (response.issues[0].fields.fixVersions[0].released){
+									var released = "Released";
+								} else {
+									var released = "Not Released";
+								}
+
+								document.getElementById('released_label').innerHTML = released;
+
+								// Round Up
+								numPagesNeeded = Math.ceil(totalIssues
+										/ displayRows);
+								pagination(numPagesNeeded, urlFull);
+
+							},
+							error : function(response) {
+								alert("Error:", response);
+							}
+						});
 
 		try {
 			paginationLocation = 1;

@@ -13,11 +13,20 @@
 	color: red;
 }
 
+.aui-page-panel-item {
+	padding-bottom: 5px;
+}
+
+#menu {
+	padding-top: 10px;
+}
+
 #header {
 	overflow: hidden;
 	width: auto;
 	display: inline;
 	vertical-align: middle;
+	color: #3B73AF;
 }
 
 #header_name {
@@ -25,8 +34,36 @@
 	padding-bottom: 10px;
 }
 
+#num_issues_lab {
+	padding-left: 30px;
+}
+
+#num_issues_label {
+	color: red;
+}
+
+#release_date_lab {
+	padding-left: 10px;
+}
+
+#release_date_label {
+	color: red;
+}
+
+#released_lab {
+	padding-left: 10px;
+}
+
+#released_label {
+	color: red;
+}
+
 #header_version {
-	display: block;
+	
+}
+
+#header_details {
+	color: red;
 }
 
 #avatar {
@@ -34,18 +71,18 @@
 	height: 15px;
 }
 
-#main_pagination{
-	width: 100%;	
+#main_pagination {
+	width: 100%;
 }
 
-#pagination{
-	width: auto;	
+#pagination {
+	width: auto;
 	color: #3B73AF;
 	text-align: center;
 	padding: 5px 0px 5px 0px; /* top right bottom left */
 }
 
-#pagination *{
+#pagination * {
 	padding: 10px 15px 10px 15px;
 }
 
@@ -55,6 +92,5 @@
 }
 
 #currentLocation {
-	
 	font-style: italic;
 }
