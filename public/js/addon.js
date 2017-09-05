@@ -85,8 +85,6 @@ $(function() {
 			success : function(response) {
 				response = JSON.parse(response);
 
-				console.log("Total Results", response.total);
-
 				populateTable(response);
 			},
 			error : function(response) {
@@ -460,11 +458,15 @@ $(function() {
 			}
 		});
 
-		paginationLocation = 1;
-		var currentLocation = document.getElementById('currentLocation');
-		currentLocation.innerHTML = "Showing Page " + paginationLocation
-		+ " of " + numPagesNeeded;
-		
+		try {
+			paginationLocation = 1;
+			var currentLocation = document.getElementById('currentLocation');
+			currentLocation.innerHTML = "Showing Page " + paginationLocation
+					+ " of " + numPagesNeeded;
+		} catch (error) {
+
+		}
+
 		getData(urlFull);
 
 	}

@@ -34,18 +34,27 @@
 	height: 15px;
 }
 
-#pagination * {
-	padding: 20px 15px;
-	text-align: center;
+#main_pagination{
+	width: 100%;	
+}
+
+#pagination{
+	width: auto;	
 	color: #3B73AF;
+	text-align: center;
+	padding: 5px 0px 5px 0px; /* top right bottom left */
+}
+
+#pagination *{
+	padding: 10px 15px 10px 15px;
 }
 
 #currentLocation {
 	background-color: white;
+	color: red;
 }
 
-#currentLocation{
-	border-style: solid;
+#currentLocation {
+	
 	font-style: italic;
 }
-
