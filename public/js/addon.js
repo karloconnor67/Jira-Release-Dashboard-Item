@@ -220,15 +220,16 @@ $(function() {
 							success : function(response) {
 
 								response = JSON.parse(response);
-								
+																
 								// show link
 								document.getElementById('project_name_label').innerHTML += '<a href="'
 										+ link
-										+ '">'
+										+ '" target="_blank" >'
 										+ response.name
 										+ ' ('
 										+ projectKey + ')' + '</a>';
-
+								
+								
 								// show Avatar
 								document.getElementById('avatar').src = response.avatarUrls["16x16"];
 
