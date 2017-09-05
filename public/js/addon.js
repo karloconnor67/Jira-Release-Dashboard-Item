@@ -125,16 +125,6 @@ $(function() {
 				+ " of " + numPages;
 		pagination_div.appendChild(currentLocation);
 
-		// array of buttons
-		for (var i = 1; i <= numPages; i++) {
-			buttons.push[i];
-			buttons[i] = document.createElement("NavButton_" + i);
-			buttons[i].innerHTML = i;
-			pagination_div.appendChild(buttons[i]);
-
-			buttons[i].addEventListener("click", bindClick(i, numPages, url));
-		}
-
 		// Add "NEXT" button
 		buttons.push["next"];
 		buttons["next"] = document.createElement("next");
@@ -171,11 +161,12 @@ $(function() {
 				}
 			} else if (button == "last") {
 				paginationLocation = numPages;
-			} else {
-				paginationLocation = button;
 			}
+			
 			currentLocation.innerHTML = "Showing Page " + paginationLocation
 					+ " of " + numPages;
+			
+			
 			getData(url);
 		};
 	}
