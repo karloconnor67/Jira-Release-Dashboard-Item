@@ -442,8 +442,7 @@ $(function() {
 							success : function(response) {
 								response = JSON.parse(response);
 								totalIssues = response.total;
-
-								console.log("VERSIONS: ", response);
+								
 								// show # of issues
 								document.getElementById('num_issues_label').innerHTML = totalIssues;
 
@@ -456,9 +455,7 @@ $(function() {
 								}
 
 								document.getElementById('release_date_label').innerHTML = releaseDate;
-
-								console.log("RELEASED FLAG: ", response.issues[0].fields.fixVersions[0].released);
-								
+															
 								// show released label
 								if (response.issues[0].fields.fixVersions[0].released){
 									var released = "Released";
@@ -503,7 +500,12 @@ $(function() {
 
 		version_issues.issues.forEach(function(element) {
 			var row = projBody.append("tr");
-			row.append("td").text(element.key);
+			
+			var label = document.createElement('label'); 
+			label.link = baseUrl + '/browse/' + element.key;
+			label.text = element.key;
+			
+			row.append("td").text(label.text);
 			row.append("td").text(element.fields.summary);
 			row.append("td").text(element.fields.status.name);
 		});
