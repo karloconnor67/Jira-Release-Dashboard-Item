@@ -220,16 +220,16 @@ $(function() {
 							success : function(response) {
 
 								response = JSON.parse(response);
-																
+
 								// show link
 								document.getElementById('project_name_label').innerHTML += '<a href="'
 										+ link
 										+ '" target="_blank" >'
 										+ response.name
 										+ ' ('
-										+ projectKey + ')' + '</a>';
-								
-								
+										+ projectKey
+										+ ')' + '</a>';
+
 								// show Avatar
 								document.getElementById('avatar').src = response.avatarUrls["16x16"];
 
@@ -442,7 +442,7 @@ $(function() {
 							success : function(response) {
 								response = JSON.parse(response);
 								totalIssues = response.total;
-								
+
 								// show # of issues
 								document.getElementById('num_issues_label').innerHTML = totalIssues;
 
@@ -455,9 +455,9 @@ $(function() {
 								}
 
 								document.getElementById('release_date_label').innerHTML = releaseDate;
-															
+
 								// show released label
-								if (response.issues[0].fields.fixVersions[0].released){
+								if (response.issues[0].fields.fixVersions[0].released) {
 									var released = "Released";
 								} else {
 									var released = "Not Released";
@@ -500,14 +500,27 @@ $(function() {
 
 		version_issues.issues.forEach(function(element) {
 			var row = projBody.append("tr");
-			
-			var label = document.createElement('label'); 
-			label.link = baseUrl + '/browse/' + element.key;
-			label.text = element.key;
-			
-			row.append("td").text(label.text);
+
+			var link = baseUrl + '/browse/' + element.key;
+			var temp = '<a href="' + link + '" target="_blank" >' + element.key
+					+ '</a>';
+
+			row.append("td").html(temp);
 			row.append("td").text(element.fields.summary);
 			row.append("td").text(element.fields.status.name);
+		});
+
+		
+		// set width
+		var x = $(".aui-page-hybrid").width();
+		var y = $(".aui-page-hybrid").height();
+		
+		$(".display").css({
+			"maxWidth" : x
+		});
+		
+		$("#version_table").css({
+			"maxWidth" : x
 		});
 
 	}
