@@ -20,7 +20,7 @@
     "scopes": [
         "READ", "WRITE"
     ],
-    
+
    "modules": {
 		"jiraDashboardItems": [
 			{

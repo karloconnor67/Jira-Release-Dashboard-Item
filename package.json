@@ -1,11 +1,12 @@
 {
-  "name": "my-addon",
+  "name": "Release Dashboard",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "test": "mocha"
   },
   "dependencies": {
+    "amd-loader": "0.0.8",
     "async": "^2.5.0",
     "atlassian-connect-express": "^2.0.3",
     "body-parser": "^1.14.2",
@@ -15,8 +16,15 @@
     "express": "^4.13.3",
     "express-hbs": "*",
     "jquery": "^3.2.1",
+    "jsdom": "^11.2.0",
     "jugglingdb-sqlite3": "0.0.5",
     "morgan": "^1.6.1",
+    "requirejs": "^2.3.5",
     "static-expiry": ">=0.0.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.2",
+    "mocha-jsdom": "^1.1.0"
   }
 }

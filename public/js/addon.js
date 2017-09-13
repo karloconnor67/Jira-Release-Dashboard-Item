@@ -93,6 +93,8 @@ $(function() {
 		});
 	}
 
+
+
 	function pagination(numPages, url) {
 		var pagination_div = document.getElementById('pagination');
 
@@ -510,15 +512,14 @@ $(function() {
 			row.append("td").text(element.fields.status.name);
 		});
 
-		
 		// set width
 		var x = $(".aui-page-hybrid").width();
 		var y = $(".aui-page-hybrid").height();
-		
+
 		$(".display").css({
 			"maxWidth" : x
 		});
-		
+
 		$("#version_table").css({
 			"maxWidth" : x
 		});

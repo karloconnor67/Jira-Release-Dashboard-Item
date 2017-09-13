@@ -29,10 +29,6 @@ module.exports = function(app, addon) {
 
 	});
 	
-    app.get('/configure', addon.authenticate(), function(req, res) {
-        res.render('configure', {
-            title: 'Atlassian Connect'
-        });
-    });
-	
+
+		
 };
