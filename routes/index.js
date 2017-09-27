@@ -29,6 +29,9 @@ module.exports = function(app, addon) {
 
 	});
 	
+	app.get('/installed', function (req, res) {
+	    res.status(200);
+	});	
 
 		
 };
