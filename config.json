@@ -52,7 +52,7 @@
         // On a PaaS host like Heroku, the runtime environment will provide the
         // HTTP port to you via the PORT environement variable, so we configure
         // that to be honored here.
-        "port": "$PORT",
+        "port": "5000",
         //Use 'unauthorized.hbs' template for displaying an error page
         "errorTemplate": true,
         // This is the public URL to your production add-on.
