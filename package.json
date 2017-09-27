@@ -12,7 +12,7 @@
     "express": "^4.13.3",
     "express-hbs": "*",
     "jquery": "^3.2.1",
-    "jugglingdb-sqlite3": "0.0.5",
+    "jugglingdb-sqlite3": "latest",
     "morgan": "^1.6.1",
     "requirejs": "^2.3.5",
     "static-expiry": ">=0.0.5"
