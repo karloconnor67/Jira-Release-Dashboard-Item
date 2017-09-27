@@ -1,6 +1,6 @@
 {
   "name": "Release-Dashboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "atlassian-connect-express": "^2.0.3",
