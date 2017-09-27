@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "ejs": "latest",
-    "aws-sdk": "latest",
     "atlassian-connect-express": "^2.0.3",
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
