@@ -2,8 +2,8 @@
   "name": "Release-Dashboard",
   "version": "0.0.2",
   "engines": {
-    "node": "4.1.1",
-    "npm": "2.14.4"
+    "node": "latest",
+    "npm": "latest"
   },
   "private": true,
   "dependencies": {
