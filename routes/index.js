@@ -26,12 +26,5 @@ module.exports = function(app, addon) {
 			title : "Release Dashboard"
 		});
 
-	});
-	
-	app.get('/installed', function(req, res) {
-	    console.log("IN INDEX");
-		res.status(200);
-	});	
-
-		
+	});		
 };
