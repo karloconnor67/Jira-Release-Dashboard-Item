@@ -15,7 +15,6 @@ module.exports = function(app, addon) {
 			// served up when requested by the host
 			'application/json' : function() {
 				res.redirect('/atlassian-connect.json');
-
 			}
 		});
 	});
@@ -29,8 +28,9 @@ module.exports = function(app, addon) {
 
 	});
 	
-	app.get('/installed', addon.authenticate(), function (req, res) {
-	    res.status(200);
+	app.get('/installed', function(req, res) {
+	    console.log("IN INDEX");
+		res.status(200);
 	});	
 
 		
