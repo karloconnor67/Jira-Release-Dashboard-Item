@@ -19,6 +19,7 @@
     "jugglingdb-postgres": "latest",
     "jugglingdb-sqlite3": "*",
     "morgan": "^1.6.1",
+    "pg": "^7.3.0",
     "requirejs": "^2.3.5",
     "static-expiry": ">=0.0.5"
   },
