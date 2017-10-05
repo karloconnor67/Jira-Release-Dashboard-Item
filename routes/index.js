@@ -30,7 +30,7 @@ module.exports = function(app, addon) {
 
 	});
 
-	app.get('/installed', function(req, res) {
+	app.get('/installed', addon.authenticate(), function(req, res) {
 		res.status(200);
 	});
 };
