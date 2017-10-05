@@ -3,6 +3,7 @@ module.exports = function(app, addon) {
 	// Root route. This route will serve the `atlassian-connect.json` unless the
 	// documentation url inside `atlassian-connect.json` is set
 	app.get('/', function(req, res) {
+
 		res.format({
 
 			// If the request content-type is text-html, it will decide which to
@@ -23,8 +24,16 @@ module.exports = function(app, addon) {
 	// here...
 	app.get('/dashboard-item', addon.authenticate(), function(req, res) {
 		res.render('dashboard-item', {
+
 			title : "Release Dashboard"
 		});
 
-	});		
+	});
+
+	app.get('/installed', function(req, res) {
+		res.render('installed', {
+			title : "Installed"
+		});
+
+	});
 };
