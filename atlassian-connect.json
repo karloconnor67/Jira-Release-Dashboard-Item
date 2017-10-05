@@ -6,13 +6,10 @@
         "name": "Karl O'Connor",
         "url": "https://www.karloconnor.atlassian.net"
     },
-//    "baseUrl": "{{localBaseUrl}}",
-    "baseUrl" : "https://jira-release-dashboard.herokuapp.com",
+    "baseUrl": "{{localBaseUrl}}",
     "links": {
-//        "self": "{{localBaseUrl}}/atlassian-connect.json",
-    	"self": "https://jira-release-dashboard.herokuapp.com/atlassian-connect.json",
-//        "homepage": "{{localBaseUrl}}/atlassian-connect.json"
-    	"homepage": "https://jira-release-dashboard.herokuapp.com/atlassian-connect.json"
+        "self": "{{localBaseUrl}}/atlassian-connect.json",
+        "homepage": "{{localBaseUrl}}/atlassian-connect.json"
     },
     "authentication": {
         "type": "jwt"
