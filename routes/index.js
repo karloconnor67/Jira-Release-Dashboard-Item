@@ -31,9 +31,7 @@ module.exports = function(app, addon) {
 	});
 
 	app.get('/installed', function(req, res) {
-		res.render('installed', {
-			title : "Installed"
-		});
-
+		res.status(200);
+		res.redirect('/atlassian-connect.json');
 	});
 };
